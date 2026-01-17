@@ -9,6 +9,7 @@ const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/auth");
 const restaurantRoutes = require("./routes/restaurants");
+const analyticsRoutes = require("./routes/analytics");
 const orderRoutes = require("./routes/orders");
 const Menu = require("./models/Menu");
 const Restaurant = require("./models/Restaurant");
@@ -122,7 +123,6 @@ app.put('/api/menu/:id', authMiddleware, async (req, res) => {
 
     const { id } = req.params;
     const { name, price, image, category, description, available } = req.body;
-
     const updatedMenuItem = await Menu.findByIdAndUpdate(
       id,
       { name, price, image, category, description, available },
@@ -183,6 +183,7 @@ app.delete("/menu/:menuId", authMiddleware, async (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/restaurants", restaurantRoutes);
 app.use("/orders", orderRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Food Delivery API Running" });
